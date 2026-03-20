@@ -1,5 +1,5 @@
 # Ansible & Terraform
-This is a simple project where I can learn how to configure instances on a ansible project.
+This is a simple project where I can learn how to configure instances on an ansible project.
 
 Coming soon - Packer files.
 
@@ -16,8 +16,8 @@ export ARM_CLIENT_SECRET="<PASSWORD_VALUE>"
 export ARM_SUBSCRIPTION_ID="<SUBSCRIPTION_ID>"
 export ARM_TENANT_ID="<TENANT_VALUE>"
 
-export AWS_ACCESS_KEY_ID=<ACCESS_KEY_ID>
-export AWS_SECRET_ACCESS_KEY=<SECRET_ACCESS_KEY_VALUE>
+export AWS_ACCESS_KEY_ID="<ACCESS_KEY_ID>"
+export AWS_SECRET_ACCESS_KEY="<SECRET_ACCESS_KEY_VALUE>"
 ```
 
 2. Deploy the AWS and Azure instances:
@@ -34,7 +34,7 @@ ansible-playbook <playbook_name.yml> --syntax-check
 ansible-playbook -i <inventory_file> <playbook_name.yml>
 ```
 
-4. Clean up
+4. Cleanup
 ```
 cd terraform
 
@@ -44,7 +44,7 @@ terraform destroy --auto-approve
 
 ## Project structure
 *  Ansible folder:
-Install packages to install, configure and start a specific services
+Install packages to install, configure and start a specific service.
 
 * Terraform folder:
 Deploy the nodes (instances) and create the inventory file for ansible.
