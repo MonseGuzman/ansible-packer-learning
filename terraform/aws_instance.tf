@@ -91,14 +91,3 @@ resource "aws_instance" "ec2" {
 
   tags = merge(local.tags, { Name = "${local.prefix_name}-ec2" })
 }
-
-## OUTPUTS
-output "ec2_public_id" {
-  description = "Instance public IP"
-  value       = aws_instance.ec2.public_ip
-}
-
-output "ec2_ssh_command" {
-  description = "SSH command to connect to the instance"
-  value       = "ssh -i ${trimsuffix(local.path, ".pub")} ubuntu@${aws_instance.ec2.public_ip}"
-}

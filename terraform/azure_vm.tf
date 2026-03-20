@@ -86,19 +86,3 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 }
-
-output "vm_public_id" {
-  description = "Instance public IP"
-  value       = azurerm_linux_virtual_machine.vm.public_ip_address
-}
-
-output "vm_ssh_command" {
-  description = "SSH command to connect to the virtual machine"
-  value       = "ssh ${local.username}@${azurerm_linux_virtual_machine.vm.public_ip_address}"
-}
-
-output "vm_password" {
-  description = "Your virtual machine password"
-  value       = random_string.password.result
-  # sensitive   = true
-}

@@ -31,7 +31,7 @@ resource "local_file" "ansible_inventory" {
 }
 
 ## OUTPUTS
-output "local_ip" {
-  description = "My public IP"
-  value       = chomp(data.http.myip.body)
-}
+# output "local_ip" {
+#   description = "My public IP"
+#   value       = chomp(data.http.myip.body)
+# }
