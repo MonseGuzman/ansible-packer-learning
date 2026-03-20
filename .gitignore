@@ -14,3 +14,15 @@ crash.log
 
 # For built boxes
 *.box
+
+# Terraform file
+**/.terraform
+*.lock.hcl
+*.tfstate.*
+*.tfstate
+
+# Keys
+*.pub
+
+# Any others files
+*.DS_Store

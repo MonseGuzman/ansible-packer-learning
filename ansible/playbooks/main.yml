@@ -1,0 +1,70 @@
+---
+- name: Web Application Exercise
+  hosts: aws_nodes
+  become: yes
+  vars_files:
+    - vars/all.yml
+
+  tasks:
+    - name: Install Python packages
+      yum:
+        name:
+          - epel-release
+          - python
+          - python-setuptools
+          - python-dev
+          - build-essential
+          - python-pip
+        state: latest
+    - name: Install MySQL packages
+      yum:
+        name:
+          - mysql-server
+          - mysql-client
+    - name: Install pip dependecies
+      pip:
+        name:
+          - flask 
+          - flask-mysql
+        state: latest
+
+    - name: Start MySQL service
+      service: 
+        name: mysql
+        state: started
+        enabled: yes
+    - name: Create MySQL db
+      mysql_db:
+        name: employee_db
+    - name: Create MySQL user
+      mysql_user:
+        name: db_user
+        password: '{{ mysql_pass }}'
+        state: present
+        priv: '*.*:ALL'
+
+    - name: Copy app.py
+      copy:
+        src: app.py
+        dest: /opt/app.py
+    - name: 'Start web app service'
+      shell: |
+        FLASK_APP="/opt/app.py" nohup flask run --host=0.0.0.0 &
+
+    # - name: 'Write in a file'
+    #   lineinfile:
+    #     path: '/var/www/html/index.html'
+    #     line: 'Welcome to ansible-beginning course'
+    #     create: true
+    #     state: present
+    #   when: ansible_host == 'node02'
+
+    # - name: Install a package
+    #   package:
+    #     name: nginx
+    #     state: present
+    # - name: Download/Install MySQL
+    #   yum:
+    #     name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+    #     state: present
+
