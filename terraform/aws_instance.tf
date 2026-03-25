@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-west-2"
-}
-
 ## RESOURCES
 resource "aws_vpc" "vpc" {
   cidr_block = "10.123.0.0/16"
@@ -76,10 +72,10 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-# ssh-keygen -t rsa -b 4096
+# # ssh-keygen -t rsa -b 4096
 resource "aws_key_pair" "key" {
   key_name   = "${local.prefix_name}-key"
-  public_key = file(local.path)
+  public_key = tls_private_key.ssh_key.public_key_openssh # file(local.path)
 }
 
 resource "aws_instance" "ec2" {
@@ -87,7 +83,7 @@ resource "aws_instance" "ec2" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.subnet.id
   vpc_security_group_ids = [aws_security_group.sg.id]
-  key_name               = aws_key_pair.key.id
+  key_name               = aws_key_pair.key.key_name
 
   tags = merge(local.tags, { Name = "${local.prefix_name}-ec2" })
 }

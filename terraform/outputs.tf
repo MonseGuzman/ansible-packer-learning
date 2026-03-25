@@ -6,7 +6,7 @@ output "ec2_public_id" {
 
 output "ec2_ssh_command" {
   description = "SSH command to connect to the instance"
-  value       = "ssh -i ${trimsuffix(local.path, ".pub")} ubuntu@${aws_instance.ec2.public_ip}"
+  value       = "ssh -i ${local.path} ubuntu@${aws_instance.ec2.public_ip}"
 }
 
 ## AZURE
@@ -25,3 +25,8 @@ output "vm_password" {
   value       = random_string.password.result
   # sensitive   = true
 }
+
+# output "local_ip" {
+#   description = "My public IP"
+#   value       = chomp(data.http.myip.body)
+# }

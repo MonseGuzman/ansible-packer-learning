@@ -17,6 +17,11 @@ resource "random_string" "password" {
   special     = true
 }
 
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource "local_file" "ansible_inventory" {
   filename = "../ansible/playbooks/inventory"
   content = templatefile("${path.module}/templates/inventory.tftpl",
@@ -28,10 +33,12 @@ resource "local_file" "ansible_inventory" {
       vm_username  = local.username
       vm_pass      = random_string.password.result
   })
+
+  # depends_on = [ local_sensitive_file.pem_file ]
 }
 
-## OUTPUTS
-# output "local_ip" {
-#   description = "My public IP"
-#   value       = chomp(data.http.myip.body)
-# }
+resource "local_sensitive_file" "pem_file" {
+  filename        = local.path
+  file_permission = "400"
+  content         = tls_private_key.ssh_key.private_key_pem
+}
